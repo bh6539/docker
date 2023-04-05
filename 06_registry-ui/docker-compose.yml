@@ -1,0 +1,36 @@
+version: "3"
+services:
+  registry:
+    image: registry
+    volumes:
+      - "/image-vol:/var/lib/registry"
+      - "/auth:/certs"
+    ports:
+      - "443:443"
+    restart: always
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/myregistry.com.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/myregistry.com.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /certs/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm 
+
+  registry-ui:    
+    image: parabuzzle/craneoperator
+    ports:
+      - "80:80"
+    environment:
+      - REGISTRY_HOST=192.168.10.20
+      - REGISTRY_PORT=443
+      - REGISTRY_PROTOCOL=https
+      - SSL_VERIFY=false
+      - ALLOW_REGISTRY_LOGIN=true 
+      - REGISTRY_USERNAME=demouser
+      - REGISTRY_PASSWORD=password
+      - USERNAME=admin
+      - PASSWORD=password
+      - REGISTRY_ALLOW_DELETE= true
+    restart: always
+    depends_on:
+      - registry

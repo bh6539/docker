@@ -1,0 +1,30 @@
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+#
+# Sfecific configuration
+#
+alias c='clear'
+alias vi='/usr/bin/vim'
+export PS1='\[\e[31;1m\][\u@\h\[\e[33;1m\] \w]\$ \[\e[m\]'
+
+alias icmd='docker inspect -f "{{ .ContainerConfig.Cmd }}"'
+alias crm='docker rm -f $(docker ps -aq) && docker ps -a'
+alias crmi='docker rmi -f $(docker images -aq) && docker images'
+alias irm='docker rmi -f $(docker images -aq) && docker images'
+alias vrm='docker volume rm -f $(docker volume ls -q) && docker volume ls'
+alias nrm='docker network rm $(docker network ls -q) && docker network ls'
+alias dockerc='docker compose'
+alias up='docker-compose up -d'
+alias down='docker-compose down -v'
+alias dc='dockerc'

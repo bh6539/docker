@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  web:
+    image: nginx
+    volumes: 
+      - "/some/content:/usr/share/nginx/html:ro"
